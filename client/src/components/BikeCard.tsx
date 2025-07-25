@@ -1,13 +1,21 @@
 import React from "react";
 import { assets, dummyBikeData, type BikeModelType } from "../assets/assets";
+import { useNavigate } from "react-router-dom";
 
 interface BikeCardProps {
   bike: BikeModelType;
 }
 
 const BikeCard = ({ bike }: BikeCardProps) => {
+  const navigate = useNavigate();
   return (
-    <div className="group rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition-all duration-500 cursor-pointer ">
+    <div
+      onClick={() => {
+        navigate(`/bike-details/${bike._id}`);
+        scrollTo(0, 0);
+      }}
+      className="group rounded-xl overflow-hidden shadow-lg hover:-translate-y-1 transition-all duration-500 cursor-pointer "
+    >
       <div className="relative h-48 overflow-hidden">
         <img
           src={bike.image}
@@ -33,21 +41,21 @@ const BikeCard = ({ bike }: BikeCardProps) => {
               {bike.category} • {bike.year}{" "}
             </p>
           </div>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 gap-1">
             <p className="flex gap-1 items-center text-gray-600 text-sm">
-              <img src={assets.users_icon} alt="" className="h-4" />
+              <img src={assets.speed_icon} alt="" className="h-5" />
               <span>{bike.top_speed}</span>
             </p>
             <p className="flex gap-1 items-center text-gray-600 text-sm">
-              <img src={assets.fuel_icon} alt="" className="h-4" />
+              <img src={assets.fuel_icon} alt="" className="h-5" />
               <span>{bike.fuel_type}</span>
             </p>
             <p className="flex gap-1 items-center text-gray-600 text-sm">
-              <img src={assets.fuel_icon} alt="" className="h-4" />
-              <span>{bike.mileage}</span>
+              <img src={assets.helmet_icon} alt="" className="h-5" />
+              <span>{bike.helmet}</span>
             </p>
             <p className="flex gap-1 items-center text-gray-600 text-sm">
-              <img src={assets.location_icon} alt="" className="h-4" />
+              <img src={assets.location_icon} alt="" className="h-5" />
               <span>{bike.location}</span>
             </p>
           </div>

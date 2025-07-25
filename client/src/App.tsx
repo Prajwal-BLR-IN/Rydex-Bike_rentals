@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import BIkes from "./pages/BIkes";
 import BikeDetails from "./pages/BikeDetails";
 import NotFound from "./pages/NotFound";
+import Footer from "./components/Footer";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -21,6 +22,7 @@ function App() {
         <Route path="/my-bookings" element={<HomePage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
+      {!isOwnerOrNotFoundPath && <Footer />}
     </>
   );
 }

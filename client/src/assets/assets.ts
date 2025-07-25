@@ -33,13 +33,23 @@ import location_icon_colored from "./location_icon_colored.svg";
 import testimonial_image_1 from "./testimonial_image_1.png";
 import testimonial_image_2 from "./testimonial_image_2.png";
 import main_bike from "./main_bike.png";
-import banner_car_image from "./banner_car_image.png";
+import banner_bike_image from "./banner_bike_image.png";
 import user_profile from "./user_profile.png";
 import upload_icon from "./upload_icon.svg";
 import car_image1 from "./car_image1.png";
 import car_image2 from "./car_image2.png";
 import car_image3 from "./car_image3.png";
 import car_image4 from "./car_image4.png";
+import bike_image1 from "./bike1.jpg";
+import bike_image2 from "./bike2.jpg";
+import bike_image3 from "./bike3.jpg";
+import bike_image4 from "./bike4.jpg";
+import bike_image5 from "./bike5.jpg";
+import bike_image6 from "./bike6.jpg";
+import speed_icon from "./speed_icon.svg";
+import engine_icon from "./engine-icon.svg";
+import helmet_icon from "./elmet_icon.svg";
+import linkedin_logo from "./linkedin_logo.svg";
 
 type menuLinksType = {
   name: string;
@@ -55,7 +65,7 @@ export type BikeModelType = {
   year: number;
   category: string;
   top_speed: string;
-  mileage: string;
+  helmet: string;
   fuel_type: string;
   pricePerDay: number;
   location: string;
@@ -102,13 +112,23 @@ export const assets = {
   testimonial_image_1,
   testimonial_image_2,
   main_bike,
-  banner_car_image,
+  banner_bike_image,
   car_image1,
   upload_icon,
   user_profile,
   car_image2,
   car_image3,
   car_image4,
+  bike_image1,
+  bike_image2,
+  bike_image3,
+  bike_image4,
+  bike_image5,
+  bike_image6,
+  speed_icon,
+  engine_icon,
+  helmet_icon,
+  linkedin_logo,
 };
 
 export const menuLinks: menuLinksType = [
@@ -158,11 +178,11 @@ export const dummyBikeData: BikeModelType[] = [
     owner: "67fe3467ed8a8fe17d0ba6e2",
     brand: "Royal Enfield",
     model: "Classic 350",
-    image: car_image1,
+    image: bike_image1,
     year: 2022,
     category: "Cruiser",
     top_speed: "110 km/h",
-    mileage: "35 km/l",
+    helmet: "Included",
     fuel_type: "Petrol",
     pricePerDay: 700,
     location: "Bangalore",
@@ -176,11 +196,11 @@ export const dummyBikeData: BikeModelType[] = [
     owner: "67fe3467ed8a8fe17d0ba6e2",
     brand: "TVS",
     model: "Apache RTR 160 4V",
-    image: car_image2,
+    image: bike_image2,
     year: 2023,
     category: "Sport",
     top_speed: "114 km/h",
-    mileage: "45 km/l",
+    helmet: "Included",
     fuel_type: "Petrol",
     pricePerDay: 500,
     location: "Hyderabad",
@@ -194,11 +214,11 @@ export const dummyBikeData: BikeModelType[] = [
     owner: "67fe3467ed8a8fe17d0ba6e2",
     brand: "Bajaj",
     model: "Pulsar NS200",
-    image: car_image3,
+    image: bike_image3,
     year: 2021,
     category: "Naked",
     top_speed: "136 km/h",
-    mileage: "38 km/l",
+    helmet: "Included",
     fuel_type: "Petrol",
     pricePerDay: 550,
     location: "Mumbai",
@@ -212,11 +232,11 @@ export const dummyBikeData: BikeModelType[] = [
     owner: "67fe3467ed8a8fe17d0ba6e2",
     brand: "Ather",
     model: "450X",
-    image: car_image4,
+    image: bike_image4,
     year: 2024,
     category: "Electric",
     top_speed: "90 km/h",
-    mileage: "146 km/charge",
+    helmet: "Not included",
     fuel_type: "Electric",
     pricePerDay: 600,
     location: "Chennai",
@@ -228,36 +248,36 @@ export const dummyBikeData: BikeModelType[] = [
   {
     _id: "bike005",
     owner: "67fe3467ed8a8fe17d0ba6ts",
-    brand: "Royal Enfield",
-    model: "Classic 350",
-    image: car_image1,
-    year: 2022,
-    category: "Cruiser",
-    top_speed: "110 km/h",
-    mileage: "35 km/l",
+    brand: "KTM",
+    model: "Duke 200",
+    image: bike_image5,
+    year: 2024,
+    category: "Naked",
+    top_speed: "130 km/h",
+    helmet: "Not included",
     fuel_type: "Petrol",
-    pricePerDay: 700,
+    pricePerDay: 850,
     location: "Bangalore",
     description:
-      "Royal Enfield Classic 350 is a retro cruiser ideal for long rides and highway cruising with a strong fanbase across India.",
+      "KTM Duke 200 is a lightweight streetfighter packed with punchy performance, aggressive design, and precise handling — perfect for spirited city rides.",
     isAvaliable: true,
     createdAt: "2025-07-21T09:00:00.000Z",
   },
   {
     _id: "bike006",
     owner: "67fe3467ed8a8fe17d0ba6e2",
-    brand: "TVS",
-    model: "Apache RTR 160 4V",
-    image: car_image2,
+    brand: "Honda",
+    model: "H'ness CB350",
+    image: bike_image6,
     year: 2023,
-    category: "Sport",
-    top_speed: "114 km/h",
-    mileage: "45 km/l",
+    category: "Cruiser",
+    top_speed: "120 km/h",
+    helmet: "Included",
     fuel_type: "Petrol",
-    pricePerDay: 500,
-    location: "Hyderabad",
+    pricePerDay: 750,
+    location: "Pune",
     description:
-      "TVS Apache RTR 160 4V offers sporty performance, aggressive styling, and sharp handling, making it a great choice for city and highway rides.",
+      "The Honda H'ness CB350 blends retro styling with modern tech and refined engine performance, ideal for laid-back cruising with a premium feel.",
     isAvaliable: true,
     createdAt: "2025-07-21T09:00:00.000Z",
   },

@@ -55,7 +55,7 @@ const HeroSection = () => {
           <span>Search</span>
         </button>
       </form>
-      <img src={assets.main_bike} alt="" className="max-h-74" />
+      <img src={assets.main_bike} alt="" className="max-h-90" />
     </div>
   );
 };
