@@ -275,7 +275,7 @@ export const dummyBikeData: BikeModelType[] = [
     helmet: "Included",
     fuel_type: "Petrol",
     pricePerDay: 750,
-    location: "Pune",
+    location: "Bangalore",
     description:
       "The Honda H'ness CB350 blends retro styling with modern tech and refined engine performance, ideal for laid-back cruising with a premium feel.",
     isAvaliable: true,
