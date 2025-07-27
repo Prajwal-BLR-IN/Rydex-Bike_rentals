@@ -74,6 +74,20 @@ export type BikeModelType = {
   createdAt: string;
 };
 
+export type BookingStatus = "pending" | "confirmed";
+
+export type BookingType = {
+  _id: string;
+  bike: BikeModelType;
+  user: string;
+  owner: string;
+  pickupDate: string;
+  returnDate: string;
+  status: BookingStatus;
+  price: number;
+  createdAt: string;
+};
+
 export const cityList = ["Bangalore", "Mumbai", "Chennai", "Hyderabad"];
 
 export const assets = {
@@ -283,7 +297,7 @@ export const dummyBikeData: BikeModelType[] = [
   },
 ];
 
-export const dummyMyBookingsData = [
+export const dummyMyBookingsData: BookingType[] = [
   {
     _id: "68482bcc98eb9722b7751f70",
     bike: dummyBikeData[0],
