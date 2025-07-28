@@ -88,6 +88,14 @@ export type BookingType = {
   createdAt: string;
 };
 
+export type dummyUserDataType = {
+  _id: string;
+  name: string;
+  email: string;
+  role: string;
+  image: string;
+};
+
 export const cityList = ["Bangalore", "Mumbai", "Chennai", "Hyderabad"];
 
 export const assets = {
@@ -178,9 +186,9 @@ export const ownerMenuLinks = [
   },
 ];
 
-export const dummyUserData = {
+export const dummyUserData: dummyUserDataType = {
   _id: "6847f7cab3d8daecdb517095",
-  name: "GreatStack",
+  name: "Prajwal",
   email: "admin@example.com",
   role: "owner",
   image: user_profile,
