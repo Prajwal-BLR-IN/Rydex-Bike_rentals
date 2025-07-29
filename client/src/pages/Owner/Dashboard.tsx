@@ -1,15 +1,10 @@
-import React, { useState } from "react";
-import { assets } from "../../assets/assets";
+import React, { useEffect, useState } from "react";
+import {
+  assets,
+  dummyDashboardData,
+  type dashboadDatatype,
+} from "../../assets/assets";
 import TitleOwner from "../../components/owner/TitleOwner";
-
-type dashboadDatatype = {
-  totalBikes: number;
-  totalBookings: number;
-  pendingBooking: number;
-  completeBookings: number;
-  recentBookings: any[];
-  monthlyRevenue: number;
-};
 
 type dashboardCardType = {
   title: string;
@@ -17,40 +12,43 @@ type dashboardCardType = {
   icon: string;
 };
 
-const dashboadData: dashboadDatatype = {
-  totalBikes: 0,
-  totalBookings: 0,
-  pendingBooking: 0,
-  completeBookings: 0,
-  recentBookings: [],
-  monthlyRevenue: 0,
-};
-
 const Dashboard = () => {
-  const [data, setDate] = useState(dashboadData);
+  const [data, setData] = useState<dashboadDatatype | null>(null);
 
-  const dashboadCard: dashboardCardType[] = [
-    {
-      title: "Total bikes",
-      value: data.totalBikes,
-      icon: assets.carIconColored,
-    },
-    {
-      title: "Total Bookings",
-      value: data.totalBookings,
-      icon: assets.listIconColored,
-    },
-    {
-      title: "Pending",
-      value: data.totalBikes,
-      icon: assets.cautionIconColored,
-    },
-    {
-      title: "Confirmed",
-      value: data.totalBikes,
-      icon: assets.listIconColored,
-    },
-  ];
+  const dashboadCard: dashboardCardType[] = data
+    ? [
+        {
+          title: "Total bikes",
+          value: data.totalBikes,
+          icon: assets.carIconColored,
+        },
+        {
+          title: "Total Bookings",
+          value: data.totalBookings,
+          icon: assets.listIconColored,
+        },
+        {
+          title: "Pending",
+          value: data.pendingBooking,
+          icon: assets.cautionIconColored,
+        },
+        {
+          title: "Confirmed",
+          value: data.completeBookings,
+          icon: assets.listIconColored,
+        },
+      ]
+    : [];
+
+  const fetchDashboadData = async () => {
+    setData(dummyDashboardData);
+  };
+
+  useEffect(() => {
+    fetchDashboadData();
+  }, []);
+
+  if (!data) return <p className="p-4">Loading...</p>;
 
   return (
     <div className="px-4 pt-10 md:px-10 flex-1">
@@ -78,12 +76,12 @@ const Dashboard = () => {
       <div className="flex flex-wrap items-start gap-6 mb-8 w-full">
         {/* Recent Bookings */}
         <div className="border border-borderColor rounded-md p-4 md:p-6 max-w-lg w-full">
-          <h2 className="font-medium text-lg">Resent Bookings</h2>
+          <h2 className="font-medium text-lg">Recent Bookings</h2>
           <p className="text-gray-500">Latest customer bookings</p>
           {data.recentBookings.map((booking, index) => (
             <div key={index} className="mt-4 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="hidden md:flex items-center justify-center w-12 h12 rounded-full bg-primary/10">
+                <div className="hidden md:flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
                   <img
                     src={assets.listIconColored}
                     alt=""
@@ -108,9 +106,9 @@ const Dashboard = () => {
             </div>
           ))}
         </div>
-        {/* total revenue */}
+        {/* Total Revenue */}
         <div className="border border-borderColor rounded-md p-4 md:p-6 mb-6 w-full md:max-w-xs">
-          <h2 className="text-lg font-medium">Montly Revenue</h2>
+          <h2 className="text-lg font-medium">Monthly Revenue</h2>
           <p className="text-gray-500">Revenue for current month</p>
           <p className="text-3xl mt-6 font-semibold text-green-600">
             र{data.monthlyRevenue}

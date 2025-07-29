@@ -12,6 +12,7 @@ import Dashboard from "./pages/Owner/Dashboard";
 import AddBike from "./pages/Owner/AddBike";
 import ManageBike from "./pages/Owner/ManageBike";
 import ManageBookings from "./pages/Owner/ManageBookings";
+import Login from "./components/Login";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -21,6 +22,7 @@ function App() {
   return (
     <>
       {!isOwnerPath && <Navbar setShowLogin={setShowLogin} />}
+      {showLogin && <Login setShowLogin={setShowLogin} />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/bikes" element={<BIkes />} />

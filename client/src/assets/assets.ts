@@ -50,6 +50,8 @@ import speed_icon from "./speed_icon.svg";
 import engine_icon from "./engine-icon.svg";
 import helmet_icon from "./elmet_icon.svg";
 import linkedin_logo from "./linkedin_logo.svg";
+import FacePlaceholder from "./face_placeholder.svg";
+import cancelIcon from "./cancel_icon.svg";
 
 type menuLinksType = {
   name: string;
@@ -94,6 +96,15 @@ export type dummyUserDataType = {
   email: string;
   role: string;
   image: string;
+};
+
+export type dashboadDatatype = {
+  totalBikes: number;
+  totalBookings: number;
+  pendingBooking: number;
+  completeBookings: number;
+  recentBookings: BookingType[];
+  monthlyRevenue: number;
 };
 
 export const cityList = ["Bangalore", "Mumbai", "Chennai", "Hyderabad"];
@@ -151,6 +162,8 @@ export const assets = {
   engine_icon,
   helmet_icon,
   linkedin_logo,
+  FacePlaceholder,
+  cancelIcon,
 };
 
 export const menuLinks: menuLinksType = [
@@ -355,8 +368,8 @@ export const dummyMyBookingsData: BookingType[] = [
 export const dummyDashboardData = {
   totalBikes: 4,
   totalBookings: 2,
-  pendingBookings: 0,
-  completedBookings: 2,
+  pendingBooking: 0,
+  completeBookings: 2,
   recentBookings: [dummyMyBookingsData[0], dummyMyBookingsData[1]],
   monthlyRevenue: 840,
 };
