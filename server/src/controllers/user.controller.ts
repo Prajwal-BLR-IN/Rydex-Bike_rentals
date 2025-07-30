@@ -126,4 +126,14 @@ const logout = async (req: Request, res: Response) => {
   }
 };
 
+const getUserInformation = (req: Request, res: Response) => {
+  try {
+    const { user } = req;
+    return res.status(200).json({ success: true, user });
+  } catch (error: any) {
+    console.log("Error during getting user info: ", error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 export { signup, login, logout };

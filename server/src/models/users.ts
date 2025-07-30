@@ -1,7 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
-const userSchema = new mongoose.Schema(
+export interface UserDocument extends Document {
+  name: string;
+  email: string;
+  password: string;
+  profileImage: string;
+  role: "user" | "owner";
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const userSchema: Schema<UserDocument> = new mongoose.Schema(
   {
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -26,6 +36,7 @@ userSchema.pre("save", async function (next) {
   }
 });
 
-const userModel = mongoose.models.user || mongoose.model("user", userSchema);
+const userModel: Model<UserDocument> =
+  mongoose.models.user || mongoose.model<UserDocument>("user", userSchema);
 
 export default userModel;
