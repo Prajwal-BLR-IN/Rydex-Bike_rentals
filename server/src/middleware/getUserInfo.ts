@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import userModel from "../models/users";
 
-const GetUserData = async (req: Request, res: Response, next: NextFunction) => {
+const protect = async (req: Request, res: Response, next: NextFunction) => {
   const { token } = req.cookies;
 
   if (!token) {
@@ -24,24 +24,29 @@ const GetUserData = async (req: Request, res: Response, next: NextFunction) => {
         .json({ success: false, message: "Unauthorized, please login" });
     }
 
-    if (typeof decodeToken === "object" && "id" in decodeToken) {
-      const user = await userModel.findById(decodeToken.id).select("-password");
+    //  Instead of checking "typeof decodedToken === 'object'" and "id" in decodedToken,
+    //    we directly cast the verified token to the expected structure using TypeScript's "as".
+    //    This gives better type safety, cleaner code, and auto-complete for decodedToken.id.
 
-      if (!user) {
-        return res
-          .status(401)
-          .json({ success: false, message: "Unauthorized, user not found" });
-      }
+    // if (typeof decodeToken === "object" && "id" in decodeToken) {
+    const decodedToken = jwt.verify(token, jwtSecret) as { id: string };
+    const user = await userModel.findById(decodedToken.id).select("-password");
 
-      req.user = user;
-
-      next();
-    } else {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized, invalid token payload",
-      });
+    if (!user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized, user not found" });
     }
+
+    req.user = user;
+
+    next();
+    // } else {
+    //   return res.status(401).json({
+    //     success: false,
+    //     message: "Unauthorized, invalid token payload",
+    //   });
+    // }
   } catch (error: any) {
     console.log("Error in the getUserInfo middleware", error);
     return res
@@ -49,3 +54,5 @@ const GetUserData = async (req: Request, res: Response, next: NextFunction) => {
       .json({ success: false, message: "Invalid or expired token" });
   }
 };
+
+export default protect;

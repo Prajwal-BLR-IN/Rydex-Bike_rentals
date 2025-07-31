@@ -7,7 +7,7 @@ import { assets } from "../../assets/assets";
 type intialValueType = {
   bikeImage: File | null;
   brand: string;
-  model: string;
+  bikeModel: string;
   year: string;
   category: string;
   top_speed: string;
@@ -24,7 +24,7 @@ const AddBike = () => {
   const initialValues: intialValueType = {
     bikeImage: bikeImage ? bikeImage : null,
     brand: "",
-    model: "",
+    bikeModel: "",
     year: "",
     category: "",
     top_speed: "",
@@ -51,7 +51,7 @@ const AddBike = () => {
         return false;
       }),
     brand: Yup.string().required("⚠ Required"),
-    model: Yup.string().required("⚠ Required"),
+    bikeModel: Yup.string().required("⚠ Required"),
     year: Yup.number()
       .typeError("Must be a valid 4-digit year")
       .integer("Year must be a whole number")
@@ -75,7 +75,9 @@ const AddBike = () => {
 
   const onSubmit = (values: intialValueType) => {
     console.log(values);
-    alert("Submitted!");
+    Object.values(values).forEach((val) => {
+      console.log(val, typeof val);
+    });
   };
 
   return (
@@ -157,8 +159,8 @@ const AddBike = () => {
                   className="flex items-center justify-between"
                 >
                   <span>Model</span>
-                  {touched.model && errors.model && (
-                    <span className="text-red-500">{errors.model}</span>
+                  {touched.bikeModel && errors.bikeModel && (
+                    <span className="text-red-500">{errors.bikeModel}</span>
                   )}
                 </label>
                 <Field
@@ -166,7 +168,7 @@ const AddBike = () => {
                   placeholder="eg: Duke 200, R15 V4, Splendor Plus..."
                   name="model"
                   className={`px-3 py-2 mt-1 border rounded-md outline-none ${
-                    touched.model && errors.model
+                    touched.bikeModel && errors.bikeModel
                       ? " border-red-500"
                       : "border-borderColor"
                   }`}

@@ -136,4 +136,4 @@ const getUserInformation = (req: Request, res: Response) => {
   }
 };
 
-export { signup, login, logout };
+export { signup, login, logout, getUserInformation };
