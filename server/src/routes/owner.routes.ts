@@ -4,18 +4,26 @@ import {
   addBike,
   changeOwnership,
   deleteBike,
+  getDashboardData,
   getOwnersBikes,
   toggleBikeAvailability,
+  updateProfilePicture,
 } from "../controllers/owner.controller";
 import upload from "../middleware/multer";
 
 const ownerRouter = express.Router();
 
+ownerRouter.post("/add-bike", upload.single("bikeImage"), protect, addBike);
+ownerRouter.post(
+  "/update-profile-pic",
+  upload.single("profileImage"),
+  protect,
+  updateProfilePicture
+);
 ownerRouter.use(protect);
 ownerRouter.post("/onboarding", changeOwnership);
-ownerRouter.post("/add-bike", upload.single("bikeImage"), addBike);
 ownerRouter.get("/my-listing", getOwnersBikes);
 ownerRouter.post("/toggle-bike", toggleBikeAvailability);
 ownerRouter.post("/delete-bike", deleteBike);
-
+ownerRouter.get("/dashboard", getDashboardData);
 export default ownerRouter;

@@ -145,7 +145,7 @@ const BikeDetails = () => {
               type="date"
               required
               className="border border-borderColor px-3 py-2 rounded-lg"
-              id="pickup-date"
+              id="pickupDate"
               min={new Date().toISOString().split("T")[0]}
             />
           </div>
@@ -155,7 +155,7 @@ const BikeDetails = () => {
               type="date"
               required
               className="border border-borderColor px-3 py-2 rounded-lg"
-              id="return-date"
+              id="returnDate"
               min={new Date().toISOString().split("T")[0]}
             />
           </div>

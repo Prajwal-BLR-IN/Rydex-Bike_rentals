@@ -4,6 +4,7 @@ import fs from "fs";
 import imagekit from "../config/imagekit";
 import BikeModel from "../models/Bike";
 import mongoose from "mongoose";
+import bookingModel from "../models/Bookings";
 
 const changeOwnership = async (req: Request, res: Response) => {
   const user = req.user as UserDocument;
@@ -147,8 +148,77 @@ const getDashboardData = async (req: Request, res: Response) => {
       return res.status(403).json({ success: false, message: "Unauthorized" });
 
     const bikes = await BikeModel.find({ owner: _id });
+
+    const bookings = await bookingModel
+      .find({ owner: _id })
+      .populate("bike")
+      .sort({ createdAt: -1 });
+
+    const pendingBookings = bookings.filter(
+      (booking) => booking.status === "pending"
+    );
+    const completedBookings = bookings.filter(
+      (booking) => booking.status === "confirmed"
+    );
+
+    const montlyRevenue = completedBookings.reduce(
+      (acc, booking) => acc + booking.price,
+      0
+    );
+
+    const dashboardData = {
+      totalBikes: bikes.length,
+      totalBookings: bookings.length,
+      pendingBookings: pendingBookings.length,
+      completedBookings: completedBookings.length,
+      resentBookings: bookings.slice(0, 3),
+      montlyRevenue,
+    };
+
+    return res.status(200).json({ success: true, dashboardData });
   } catch (error: any) {
     console.log("Error getting dashboard data: ", error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// API to update user image from sidebar
+const updateProfilePicture = async (req: Request, res: Response) => {
+  try {
+    const user = req.user as UserDocument;
+    const _id = user._id as mongoose.Types.ObjectId;
+
+    const profileImage = req.file;
+
+    if (!profileImage)
+      return res
+        .status(400)
+        .json({ success: false, message: "Image is missing" });
+
+    const fileBuffer = fs.readFileSync(profileImage?.path);
+
+    // Upload image to imagekit
+    const response = await imagekit.upload({
+      file: fileBuffer,
+      fileName: profileImage.originalname + "-" + Date.now(),
+      folder: "/users",
+    });
+
+    //get the url
+    var imageURL = imagekit.url({
+      path: response.filePath,
+      transformation: [
+        { width: "400" },
+        { quality: "auto" },
+        { format: "webp" },
+      ],
+    });
+
+    await userModel.findByIdAndUpdate(_id, { profileImage: imageURL });
+
+    return res.status(200).json({ success: true, message: "Image updated" });
+  } catch (error: any) {
+    console.log("Error updating owner's profile picture: ", error);
     return res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -159,4 +229,6 @@ export {
   getOwnersBikes,
   toggleBikeAvailability,
   deleteBike,
+  getDashboardData,
+  updateProfilePicture,
 };
