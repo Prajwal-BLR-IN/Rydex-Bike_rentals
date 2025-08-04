@@ -1,17 +1,20 @@
 import { Request, Response } from "express";
-import userModel from "../models/users";
+import userModel, { UserDocument } from "../models/users";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import fs from "fs";
+import imagekit from "../config/imagekit";
 
 const signup = async (req: Request, res: Response) => {
-  const { profileImage, name, email, password } = req.body;
+  const { name, email, password } = JSON.parse(req.body.userData);
+  const profilePicture = req.file;
 
-  if (!profileImage || !name || !email || !password || password.length < 8) {
+  if (!profilePicture || !name || !email || !password || password.length < 8) {
     return res.status(400).json({
       success: false,
       message: "Missing details",
       Missing: [
-        !profileImage && "profile image",
+        !profilePicture && "profile image",
         !email && "email",
         !password && "password",
         password.length < 8 && "password",
@@ -27,6 +30,25 @@ const signup = async (req: Request, res: Response) => {
         success: false,
         message: "user already exist, please use different email",
       });
+
+    const fileBuffer = fs.readFileSync(profilePicture?.path);
+
+    // Upload image to imagekit
+    const response = await imagekit.upload({
+      file: fileBuffer,
+      fileName: profilePicture.originalname + "-" + Date.now(),
+      folder: "/users",
+    });
+
+    //get the url
+    var profileImage = imagekit.url({
+      path: response.filePath,
+      transformation: [
+        { width: "400" },
+        { quality: "auto" },
+        { format: "webp" },
+      ],
+    });
 
     const user = await userModel.create({
       profileImage,
@@ -104,7 +126,7 @@ const login = async (req: Request, res: Response) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, message: "Logged in" });
   } catch (error: any) {
     console.log("Error during login: ", error);
     return res.status(500).json({ success: false, message: error.message });
@@ -136,4 +158,25 @@ const getUserInformation = (req: Request, res: Response) => {
   }
 };
 
-export { signup, login, logout, getUserInformation };
+const changeOwnership = async (req: Request, res: Response) => {
+  const user = req.user as UserDocument;
+  const { _id } = user;
+
+  if (!_id)
+    return res
+      .status(403)
+      .json({ success: false, message: "Unauthorized, please login" });
+
+  try {
+    await userModel.findByIdAndUpdate(_id, { role: "owner" });
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Now you can list bikes" });
+  } catch (error: any) {
+    console.log("Error during changing role: ", error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export { signup, login, logout, getUserInformation, changeOwnership };

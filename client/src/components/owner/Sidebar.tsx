@@ -1,22 +1,34 @@
-import React, { useState } from "react";
-import {
-  assets,
-  dummyUserData,
-  ownerMenuLinks,
-  type dummyUserDataType,
-} from "../../assets/assets";
+import { assets, ownerMenuLinks } from "../../assets/assets";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAuthUser } from "../../hooks/useAuthUser";
+import { useState } from "react";
+import { axiosInstance } from "../../helper/axiosInstance";
+import toast from "react-hot-toast";
+import ButtonLoader from "../ButtonLoader";
 
 const Sidebar = () => {
-  const [user, setUser] = useState<dummyUserDataType>(dummyUserData);
-  const [image, setImage] = useState<Blob | null>(null);
+  const { authUser } = useAuthUser();
+  const [image, setImage] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
   const location = useLocation();
 
-  const updateImage = () => {
-    if (image) {
-      const newImageUrl = URL.createObjectURL(image);
-      setUser({ ...user, image: newImageUrl });
-      setImage(null);
+  const updateImage = async () => {
+    try {
+      const formData = new FormData();
+      if (image) formData.append("profileImage", image);
+      const { data } = await axiosInstance.post(
+        "/owner/update-profile-pic",
+        formData
+      );
+      if (data.success) {
+        toast.success(data.message);
+        setImage(null);
+        setUploading(false);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error: any) {
+      console.log("Error during updating image");
     }
   };
 
@@ -26,11 +38,7 @@ const Sidebar = () => {
       <div className="group relative">
         <label htmlFor="image" className="cursor-pointer">
           <img
-            src={
-              image
-                ? URL.createObjectURL(image)
-                : user?.image || assets.bike_image3
-            }
+            src={image ? URL.createObjectURL(image) : authUser?.profileImage}
             alt="Profile"
             className="w-9 h-9 md:h-14 md:w-14 object-cover rounded-full mx-auto"
           />
@@ -52,16 +60,33 @@ const Sidebar = () => {
       {/* Save Button */}
       {image && (
         <button
-          onClick={updateImage}
-          className="absolute top-0 right-0 flex items-center px-2 gap-1 bg-primary/10 text-primary rounded"
+          onClick={() => {
+            setUploading(true);
+            updateImage();
+          }}
+          disabled={uploading}
+          className={`absolute top-1 cursor-pointer flex items-center px-2 gap-1 bg-primary/10 text-primary rounded ${
+            uploading ? "pointer-events-none" : "cursor-pointer"
+          }`}
         >
-          <span>Save</span>
-          <img src={assets.check_icon} width={13} alt="Check Icon" />
+          <span className="flex items-center justify-center gap-1.5 p-1">
+            {uploading ? (
+              <>
+                <ButtonLoader />
+                <span>Saving...</span>
+              </>
+            ) : (
+              <>
+                <span>Save</span>
+                <img src={assets.check_icon} width={13} alt="Check Icon" />
+              </>
+            )}
+          </span>
         </button>
       )}
 
       {/* User Name */}
-      <p className="mt-2 text-base max-md:hidden">{user?.name}</p>
+      <p className="mt-2 text-base max-md:hidden">{authUser?.name}</p>
 
       {/* Navigation Links */}
       <div className="w-full mt-6">

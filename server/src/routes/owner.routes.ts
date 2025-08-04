@@ -2,7 +2,6 @@ import express from "express";
 import protect from "../middleware/getUserInfo";
 import {
   addBike,
-  changeOwnership,
   deleteBike,
   getDashboardData,
   getOwnersBikes,
@@ -21,7 +20,6 @@ ownerRouter.post(
   updateProfilePicture
 );
 ownerRouter.use(protect);
-ownerRouter.post("/onboarding", changeOwnership);
 ownerRouter.get("/my-listing", getOwnersBikes);
 ownerRouter.post("/toggle-bike", toggleBikeAvailability);
 ownerRouter.post("/delete-bike", deleteBike);

@@ -62,8 +62,8 @@ export type BikeModelType = {
   _id: string;
   owner: string;
   brand: string;
-  model: string;
-  image: string;
+  bikeModel: string;
+  bikeImage: string;
   year: number;
   category: string;
   top_speed: string;
@@ -207,7 +207,7 @@ export const dummyUserData: dummyUserDataType = {
   image: user_profile,
 };
 
-export const dummyBikeData: BikeModelType[] = [
+export const dummyBikeData = [
   {
     _id: "bike001",
     owner: "67fe3467ed8a8fe17d0ba6e2",
@@ -318,7 +318,7 @@ export const dummyBikeData: BikeModelType[] = [
   },
 ];
 
-export const dummyMyBookingsData: BookingType[] = [
+export const dummyMyBookingsData = [
   {
     _id: "68482bcc98eb9722b7751f70",
     bike: dummyBikeData[0],

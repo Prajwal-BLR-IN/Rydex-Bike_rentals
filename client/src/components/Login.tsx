@@ -2,12 +2,14 @@ import { Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import * as Yup from "yup";
 import { assets } from "../assets/assets";
+import { useAuthMutation } from "../hooks/useAuthMutation";
+import ButtonLoader from "./ButtonLoader";
 
 type propType = {
   setShowLogin: (value: boolean) => void;
 };
 
-type formToShowType = "register" | "login";
+type formToShowType = "signup" | "login";
 
 type intialValueType = {
   profileImage?: File | null;
@@ -21,7 +23,7 @@ const Login = ({ setShowLogin }: propType) => {
   const [profileImage, setProfileImage] = useState<File | null>(null);
 
   const initialValues =
-    formType === "register"
+    formType === "signup"
       ? {
           profileImage: profileImage ? profileImage : null,
           name: "",
@@ -34,7 +36,7 @@ const Login = ({ setShowLogin }: propType) => {
         };
 
   const validationSchema =
-    formType === "register"
+    formType === "signup"
       ? Yup.object({
           profileImage: Yup.mixed()
             .required("Image is required")
@@ -63,8 +65,33 @@ const Login = ({ setShowLogin }: propType) => {
             .required("Required"),
         });
 
+  const { mutate, isPending } = useAuthMutation({
+    url: `/user/${formType}`,
+    onSuccessRedirect: () => setShowLogin(false),
+    invalidateKey: "authUser",
+  });
+
   const onSubmit = (value: intialValueType) => {
-    console.log(value);
+    if (formType === "login") {
+      mutate(value);
+    } else {
+      const formData = new FormData();
+
+      // Send userData as JSON string
+      const userData = {
+        name: value.name,
+        email: value.email,
+        password: value.password,
+      };
+      formData.append("userData", JSON.stringify(userData));
+
+      // Send profileImage as file
+      if (value.profileImage) {
+        formData.append("profileImage", value.profileImage);
+      }
+
+      mutate(formData);
+    }
   };
 
   return (
@@ -91,13 +118,9 @@ const Login = ({ setShowLogin }: propType) => {
             </div>
             <h2 className="text-2xl font-semibold text-center">
               <span className="text-primary">User</span>{" "}
-              {formType === "register" ? (
-                <span>Signup</span>
-              ) : (
-                <span>Login</span>
-              )}
+              {formType === "signup" ? <span>Signup</span> : <span>Login</span>}
             </h2>
-            {formType === "register" && (
+            {formType === "signup" && (
               <>
                 <div className="flex flex-col items-center justify-center gap-2">
                   <label htmlFor="profileImage" className="cursor-pointer mt-5">
@@ -188,38 +211,71 @@ const Login = ({ setShowLogin }: propType) => {
               />
             </div>
 
-            {formType === "register" ? (
-              <p className="text-base">
-                Already have an account?{" "}
-                <span
-                  className="text-primary font-bold cursor-pointer hover:underline"
-                  onClick={() =>
-                    setFormType(formType === "register" ? "login" : "register")
-                  }
+            {formType === "signup" ? (
+              <>
+                <button
+                  type="submit"
+                  disabled={isPending}
+                  className={`flex items-center justify-center gap-1.5 font-semibold bg-primary py-2 rounded-md hover:bg-primary-dull active:scale-95 text-white shadow  mt-2 ${
+                    isPending
+                      ? "pointer-events-none opacity-60"
+                      : "cursor-pointer"
+                  } `}
                 >
-                  Login
-                </span>
-              </p>
+                  {isPending ? (
+                    <>
+                      <ButtonLoader />
+                      <span>Signin up....</span>
+                    </>
+                  ) : (
+                    "Signup"
+                  )}
+                </button>
+                <p className="text-base">
+                  Already have an account?{" "}
+                  <span
+                    className="text-primary font-bold cursor-pointer hover:underline"
+                    onClick={() =>
+                      setFormType(formType === "signup" ? "login" : "signup")
+                    }
+                  >
+                    Login
+                  </span>
+                </p>
+              </>
             ) : (
-              <p className="text-base">
-                Don't have an account?{" "}
-                <span
-                  className="text-primary font-bold cursor-pointer hover:underline"
-                  onClick={() =>
-                    setFormType(formType === "login" ? "register" : "login")
-                  }
+              <>
+                <button
+                  type="submit"
+                  disabled={isPending}
+                  className={`flex items-center justify-center gap-1.5 font-semibold bg-primary py-2 rounded-md hover:bg-primary-dull active:scale-95 text-white shadow mt-2 ${
+                    isPending
+                      ? "pointer-events-none opacity-60"
+                      : "cursor-pointer"
+                  } `}
                 >
-                  Signup
-                </span>
-              </p>
+                  {isPending ? (
+                    <>
+                      <ButtonLoader />
+                      <span>Loging in....</span>
+                    </>
+                  ) : (
+                    "Login"
+                  )}
+                </button>
+                <p className="text-base">
+                  Don't have an account?{" "}
+                  <span
+                    className="text-primary font-bold cursor-pointer hover:underline"
+                    onClick={() =>
+                      setFormType(formType === "login" ? "signup" : "login")
+                    }
+                  >
+                    Signup
+                  </span>
+                </p>
+              </>
             )}
-
-            <button
-              type="submit"
-              className="bg-primary py-2 rounded-md hover:bg-primary-dull active:scale-95 cursor-pointer text-white shadow"
-            >
-              Submit
-            </button>
           </Form>
         )}
       </Formik>

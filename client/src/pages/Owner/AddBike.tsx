@@ -3,6 +3,9 @@ import TitleOwner from "../../components/owner/TitleOwner";
 import { Field, Formik, Form } from "formik";
 import * as Yup from "yup";
 import { assets } from "../../assets/assets";
+import { useOwnerMutation } from "../../hooks/useOwnerMutation";
+import { useNavigate } from "react-router-dom";
+import ButtonLoader from "../../components/ButtonLoader";
 
 type intialValueType = {
   bikeImage: File | null;
@@ -20,6 +23,7 @@ type intialValueType = {
 
 const AddBike = () => {
   const [bikeImage, setBikeImage] = useState<File | null>(null);
+  const navigate = useNavigate();
 
   const initialValues: intialValueType = {
     bikeImage: bikeImage ? bikeImage : null,
@@ -73,11 +77,35 @@ const AddBike = () => {
     description: Yup.string().required("⚠ Required"),
   });
 
-  const onSubmit = (values: intialValueType) => {
-    console.log(values);
-    Object.values(values).forEach((val) => {
-      console.log(val, typeof val);
-    });
+  const { mutate, isPending } = useOwnerMutation({
+    url: "/owner/add-bike",
+    onSuccessRedirect: () => navigate("/owner"),
+    invalidateKey: "owner",
+  });
+
+  const onSubmit = (value: intialValueType) => {
+    const formData = new FormData();
+    const bikeData = {
+      brand: value.brand,
+      bikeModel: value.bikeModel,
+      year: value.year,
+      category: value.category,
+      top_speed: value.top_speed,
+      helmet: value.helmet,
+      fuel_type: value.fuel_type,
+      pricePerDay: value.pricePerDay,
+      location: value.location,
+      description: value.description,
+    };
+
+    if (bikeData) {
+      formData.append("bikeData", JSON.stringify(bikeData));
+    }
+    if (bikeImage) {
+      formData.append("bikeImage", bikeImage);
+    }
+
+    mutate(formData);
   };
 
   return (
@@ -166,7 +194,7 @@ const AddBike = () => {
                 <Field
                   type="text"
                   placeholder="eg: Duke 200, R15 V4, Splendor Plus..."
-                  name="model"
+                  name="bikeModel"
                   className={`px-3 py-2 mt-1 border rounded-md outline-none ${
                     touched.bikeModel && errors.bikeModel
                       ? " border-red-500"
@@ -373,10 +401,22 @@ const AddBike = () => {
 
             <button
               type="submit"
-              className="flex items-center px-5 py-3 bg-primary text-white w-fit rounded-md gap-1 cursor-pointer hover:bg-primary-dull font-medium active:scale-95"
+              disabled={isPending}
+              className={`flex items-center px-5 py-3 bg-primary text-white w-fit rounded-md gap-1  hover:bg-primary-dull font-medium active:scale-95 ${
+                isPending ? "pointer-events-none" : "cursor-pointer"
+              } `}
             >
-              <img src={assets.tick_icon} alt="tick icon" />
-              <span>List your bike</span>
+              {isPending ? (
+                <>
+                  <ButtonLoader />
+                  <span>Adding bike...</span>
+                </>
+              ) : (
+                <>
+                  <img src={assets.tick_icon} alt="tick icon" />
+                  <span>List your bike</span>
+                </>
+              )}
             </button>
           </Form>
         )}

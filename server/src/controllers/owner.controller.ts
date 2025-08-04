@@ -6,27 +6,6 @@ import BikeModel from "../models/Bike";
 import mongoose from "mongoose";
 import bookingModel from "../models/Bookings";
 
-const changeOwnership = async (req: Request, res: Response) => {
-  const user = req.user as UserDocument;
-  const { _id } = user;
-
-  if (!_id)
-    return res
-      .status(403)
-      .json({ success: false, message: "Unauthorized, please login" });
-
-  try {
-    await userModel.findByIdAndUpdate(_id, { role: "owner" });
-
-    return res
-      .status(200)
-      .json({ success: true, message: "Now you can list bikes" });
-  } catch (error: any) {
-    console.log("Error during changing role: ", error);
-    return res.status(500).json({ success: false, message: error.message });
-  }
-};
-
 const addBike = async (req: Request, res: Response) => {
   try {
     const user = req.user as UserDocument;
@@ -133,7 +112,7 @@ const deleteBike = async (req: Request, res: Response) => {
     bike.isAvaliable = false;
     await bike.save();
 
-    return res.status(200).json({ success: true, message: "Bike Removed" });
+    return res.status(200).json({ success: true });
   } catch (error: any) {
     console.log("Error deleting bike: ", error);
     return res.status(500).json({ success: false, message: error.message });
@@ -169,10 +148,10 @@ const getDashboardData = async (req: Request, res: Response) => {
     const dashboardData = {
       totalBikes: bikes.length,
       totalBookings: bookings.length,
-      pendingBookings: pendingBookings.length,
-      completedBookings: completedBookings.length,
-      resentBookings: bookings.slice(0, 3),
-      montlyRevenue,
+      pendingBooking: pendingBookings.length,
+      completeBookings: completedBookings.length,
+      recentBookings: bookings.slice(0, 3),
+      monthlyRevenue: montlyRevenue,
     };
 
     return res.status(200).json({ success: true, dashboardData });
@@ -224,7 +203,6 @@ const updateProfilePicture = async (req: Request, res: Response) => {
 };
 
 export {
-  changeOwnership,
   addBike,
   getOwnersBikes,
   toggleBikeAvailability,
