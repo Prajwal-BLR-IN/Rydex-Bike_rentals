@@ -22,6 +22,7 @@ const BikeDetails = () => {
     url: "/bookings/create",
     invalidateKey: "bookings",
     invalidateKey2: "my-bookings",
+    onSuccessRedirect: () => navigate("/my-bookings"),
   });
 
   const features: featuresType[] = [

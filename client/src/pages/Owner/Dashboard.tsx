@@ -150,7 +150,7 @@ const Dashboard = () => {
                 />
               ) : (
                 <p className="text-3xl mt-6 font-semibold text-green-600">
-                  र{dashboardData.monthlyRevenue}
+                  र{dashboardData.monthlyRevenue.toLocaleString("en-IN")}
                 </p>
               )}
             </div>

@@ -42,6 +42,8 @@ const Bikes = () => {
         ? (data as { availableBikes: BikeModelType[] }).availableBikes
         : bikeData;
 
+    // const bikes = bikeData;
+
     const filtered = bikes.filter(
       (bike) =>
         bike.brand.toLowerCase().includes(input.toLowerCase()) ||

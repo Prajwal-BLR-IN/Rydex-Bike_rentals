@@ -103,7 +103,7 @@ const bookTheBike = async (req: Request, res: Response) => {
     if (!isAvailable)
       return res.status(400).json({
         success: false,
-        message: "Bike is not available",
+        message: "Bike is not available on that date range",
       });
 
     const bike = await BikeModel.findById(bikeId);
@@ -125,9 +125,6 @@ const bookTheBike = async (req: Request, res: Response) => {
       returnDate,
       price,
     });
-
-    bike.isAvaliable = false;
-    await bike.save();
 
     return res.status(200).json({
       success: true,
