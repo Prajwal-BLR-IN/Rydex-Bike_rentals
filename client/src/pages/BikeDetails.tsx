@@ -5,6 +5,7 @@ import Loader from "../components/Loader";
 import { useBikesQuery } from "../hooks/useBikesQuery";
 import { useStore } from "../store/useStore";
 import { useOwnerMutation } from "../hooks/useOwnerMutation";
+import { motion } from "motion/react";
 
 type featuresType = {
   icon: string;
@@ -39,9 +40,9 @@ const BikeDetails = () => {
   };
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || bikeData.length === 0) return;
     setBike(bikeData.find((bike) => bike._id === id) || null);
-  }, [id]);
+  }, [id, bikeData]);
 
   return bike ? (
     <div className="px-6 md:px-16 lg:px-24 xl:px-32 mt-16">
@@ -58,13 +59,26 @@ const BikeDetails = () => {
       </button>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
         {/* Left: bike Image & Details */}
-        <div className="lg:col-span-2">
-          <img
+        <motion.div
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="lg:col-span-2"
+        >
+          <motion.img
+            initial={{ scale: 0.98, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5 }}
             src={bike.bikeImage}
             alt="bike image"
             className="w-full h-auto md:max-h-100 object-cover rounded-xl mb-4 shadow-md"
           />
-          <div className="space-y-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="space-y-6"
+          >
             <div>
               <h2 className="text-3xl font-bold">
                 {bike.brand} {bike.bikeModel}
@@ -76,13 +90,16 @@ const BikeDetails = () => {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {features.map(({ icon, text }) => (
-                <div
+                <motion.div
+                  initial={{ y: 10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.4 }}
                   key={text}
                   className="flex flex-col items-center justify-center bg-light p-4 rounded-lg"
                 >
                   <img src={icon} alt="icon" className="h-6 mb-2" />
                   <span className="text-center">{text}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
 
@@ -138,10 +155,13 @@ const BikeDetails = () => {
                 </li>
               </ul>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
         {/* Right: Booking form */}
-        <form
+        <motion.form
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
           onSubmit={handleSubmit}
           className="shadow-lg h-max sticky top-18 rounded-xl p-6 space-y-6 text-gray-500"
         >
@@ -187,7 +207,7 @@ const BikeDetails = () => {
           <p className="text-center text-sm">
             No credit card required to reserve
           </p>
-        </form>
+        </motion.form>
       </div>
     </div>
   ) : (

@@ -1,5 +1,6 @@
 import React from "react";
 import Title from "./Title";
+import { motion } from "motion/react";
 
 const Testimonials = () => {
   const testimonials = [
@@ -58,8 +59,12 @@ const Testimonials = () => {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-18 ">
-        {testimonials.map((testimonial) => (
-          <div
+        {testimonials.map((testimonial, index) => (
+          <motion.div
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: index * 0.2, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.6 }}
             key={testimonial.id}
             className="bg-white p-6 rounded-xl  shadow-lg hover:-translate-y-1 transition-all duration-500"
           >
@@ -84,7 +89,7 @@ const Testimonials = () => {
             <p className="text-gray-500 max-w-90 mt-4 font-light">
               "{testimonial.review}"
             </p>
-          </div>
+          </motion.div>
         ))}
       </div>
     </section>

@@ -3,6 +3,7 @@ import { assets, menuLinks } from "../assets/assets";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuthUser } from "../hooks/useAuthUser";
 import { useAuthMutation } from "../hooks/useAuthMutation";
+import { motion } from "motion/react";
 
 type setShowLoginPropType = {
   setShowLogin: (value: boolean) => void;
@@ -27,12 +28,21 @@ const Navbar = ({ setShowLogin }: setShowLoginPropType) => {
   });
 
   return (
-    <div
+    <motion.div
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
       className={`flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 text-gray-600 border-b border-borderColor relative transition-all
         ${location.pathname === "/" && "bg-light"}`}
     >
       <Link to="/">
-        <img src={assets.logo} alt="logo" className="h-8" />
+        <motion.img
+          whileHover={{ scale: 1.05 }}
+          src={assets.logo}
+          alt="logo"
+          className="h-8"
+        />
       </Link>
 
       <div
@@ -95,7 +105,7 @@ const Navbar = ({ setShowLogin }: setShowLoginPropType) => {
           aria-label="Menu"
         />
       </button>
-    </div>
+    </motion.div>
   );
 };
 

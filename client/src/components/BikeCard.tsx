@@ -1,5 +1,4 @@
-import React from "react";
-import { assets, dummyBikeData, type BikeModelType } from "../assets/assets";
+import { assets, type BikeModelType } from "../assets/assets";
 import { useNavigate } from "react-router-dom";
 
 interface BikeCardProps {
