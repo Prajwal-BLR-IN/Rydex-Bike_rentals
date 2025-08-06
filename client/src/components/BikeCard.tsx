@@ -18,7 +18,7 @@ const BikeCard = ({ bike }: BikeCardProps) => {
     >
       <div className="relative h-48 overflow-hidden">
         <img
-          src={bike.image}
+          src={bike.bikeImage}
           alt="bike 1"
           className="w-full
              h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -35,7 +35,7 @@ const BikeCard = ({ bike }: BikeCardProps) => {
         <div className="m-4 sm:m-5">
           <div className="mb-4">
             <h2 className="font-medium text-lg">
-              {bike.brand} {bike.model}
+              {bike.brand} {bike.bikeModel}
             </h2>
             <p className="text-gray-700 ">
               {bike.category} • {bike.year}{" "}
@@ -44,7 +44,7 @@ const BikeCard = ({ bike }: BikeCardProps) => {
           <div className="grid grid-cols-2 gap-1">
             <p className="flex gap-1 items-center text-gray-600 text-sm">
               <img src={assets.speed_icon} alt="" className="h-5" />
-              <span>{bike.top_speed}</span>
+              <span>{bike.top_speed} km/h</span>
             </p>
             <p className="flex gap-1 items-center text-gray-600 text-sm">
               <img src={assets.fuel_icon} alt="" className="h-5" />

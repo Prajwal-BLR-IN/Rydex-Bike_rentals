@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactEventHandler } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { assets, dummyBikeData, type BikeModelType } from "../assets/assets";
 import Loader from "../components/Loader";
+import { useBikesQuery } from "../hooks/useBikesQuery";
 
 type featuresType = {
   icon: string;
@@ -12,6 +13,8 @@ const BikeDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [bike, setBike] = useState<BikeModelType | null>(null);
+  const { data: bikeData = [] } = useBikesQuery();
+
   const features: featuresType[] = [
     { icon: assets.speed_icon, text: `${bike?.top_speed} km/h` },
     { icon: assets.fuel_icon, text: bike?.fuel_type },
@@ -25,7 +28,7 @@ const BikeDetails = () => {
 
   useEffect(() => {
     if (!id) return;
-    setBike(dummyBikeData.find((bike) => bike._id === id) || null);
+    setBike(bikeData.find((bike) => bike._id === id) || null);
   }, [id]);
 
   return bike ? (
@@ -45,14 +48,14 @@ const BikeDetails = () => {
         {/* Left: bike Image & Details */}
         <div className="lg:col-span-2">
           <img
-            src={bike.image}
+            src={bike.bikeImage}
             alt="bike image"
             className="w-full h-auto md:max-h-100 object-cover rounded-xl mb-4 shadow-md"
           />
           <div className="space-y-6">
             <div>
               <h2 className="text-3xl font-bold">
-                {bike.brand} {bike.model}
+                {bike.brand} {bike.bikeModel}
               </h2>
               <p className="text-gray-500 text-lg">
                 {bike.category} • {bike.year}

@@ -145,11 +145,11 @@ const getMybookings = async (req: Request, res: Response) => {
     const user = req.user as UserDocument;
     const _id = user._id as mongoose.Types.ObjectId;
 
-    const myBookings = await bookingModel
+    const bookings = await bookingModel
       .find({ user: _id })
       .populate("bike")
       .sort({ createdAt: -1 });
-    if (!myBookings)
+    if (!bookings)
       return res.status(400).json({
         success: false,
         message: "You Don't have any bookings yet!",
@@ -157,7 +157,7 @@ const getMybookings = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       success: true,
-      myBookings,
+      bookings,
     });
   } catch (error: any) {
     console.log("Error getting users bookings: ", error);

@@ -5,6 +5,7 @@ import DataEmpty from "../../components/DataEmpty";
 import { useOwnerBikesQuery } from "../../hooks/useOwnerBikesQuery";
 import { useOwnerMutation } from "../../hooks/useOwnerMutation";
 import toast from "react-hot-toast";
+import ComponentLoader from "../../components/ComponentLoader";
 
 const ManageBike = () => {
   const { data: bikes, isLoading, isError } = useOwnerBikesQuery();
@@ -77,8 +78,8 @@ const ManageBike = () => {
           <tbody>
             {isLoading ? (
               <tr>
-                <td colSpan={5} className="p-4 text-center">
-                  Loading...
+                <td colSpan={5} className="p-4">
+                  <ComponentLoader />
                 </td>
               </tr>
             ) : isError || !bikes || bikes.length === 0 ? (

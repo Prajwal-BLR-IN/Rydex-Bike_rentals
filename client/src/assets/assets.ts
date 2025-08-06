@@ -66,7 +66,7 @@ export type BikeModelType = {
   bikeImage: string;
   year: number;
   category: string;
-  top_speed: string;
+  top_speed: number;
   helmet: string;
   fuel_type: string;
   pricePerDay: number;
