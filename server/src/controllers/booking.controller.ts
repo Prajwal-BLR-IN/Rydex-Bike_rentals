@@ -179,7 +179,8 @@ const getOwnerBookings = async (req: Request, res: Response) => {
 
     const bookings = await bookingModel
       .find({ owner: _id })
-      .populate("bike, user")
+      .populate("bike")
+      .populate("user") // or we can use .populate(["bike", "user"]) both are same
       .select("-user.password")
       .sort({ createdAt: -1 });
 
@@ -212,10 +213,10 @@ const changeBookingStatus = async (req: Request, res: Response) => {
 
     const bookings = await bookingModel.findById(bookingId);
 
-    if (bookings.owner.toString() === _id.toString()) {
+    if (bookings.owner.toString() === bookings.user.toString()) {
       return res.status(400).json({
         success: false,
-        message: "You can't chanage your vehicle by yourself",
+        message: "You can't chnage your vehicle by yourself",
       });
     }
 

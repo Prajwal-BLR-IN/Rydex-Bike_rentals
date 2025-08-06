@@ -11,6 +11,7 @@ const ManageBookings = () => {
   const { mutate: bookingStatusMutate } = useOwnerMutation({
     url: "/bookings/change-status",
     invalidateKey: "bookings",
+    invalidateKey2: "my-bookings",
   });
 
   return (

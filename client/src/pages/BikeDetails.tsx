@@ -1,8 +1,10 @@
-import { useEffect, useState, type ReactEventHandler } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { assets, dummyBikeData, type BikeModelType } from "../assets/assets";
+import { assets, type BikeModelType } from "../assets/assets";
 import Loader from "../components/Loader";
 import { useBikesQuery } from "../hooks/useBikesQuery";
+import { useStore } from "../store/useStore";
+import { useOwnerMutation } from "../hooks/useOwnerMutation";
 
 type featuresType = {
   icon: string;
@@ -14,6 +16,13 @@ const BikeDetails = () => {
   const navigate = useNavigate();
   const [bike, setBike] = useState<BikeModelType | null>(null);
   const { data: bikeData = [] } = useBikesQuery();
+  const { pickupDate, returnDate, setPickupDate, setReturnDate } = useStore();
+
+  const { mutate: bookBikeMutation } = useOwnerMutation({
+    url: "/bookings/create",
+    invalidateKey: "bookings",
+    invalidateKey2: "my-bookings",
+  });
 
   const features: featuresType[] = [
     { icon: assets.speed_icon, text: `${bike?.top_speed} km/h` },
@@ -24,6 +33,8 @@ const BikeDetails = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log({ bikeId: id, pickupDate, returnDate });
+    bookBikeMutation({ bikeId: id, pickupDate, returnDate });
   };
 
   useEffect(() => {
@@ -66,10 +77,10 @@ const BikeDetails = () => {
               {features.map(({ icon, text }) => (
                 <div
                   key={text}
-                  className="flex flex-col items-center bg-light p-4 rounded-lg"
+                  className="flex flex-col items-center justify-center bg-light p-4 rounded-lg"
                 >
                   <img src={icon} alt="icon" className="h-6 mb-2" />
-                  <span>{text}</span>
+                  <span className="text-center">{text}</span>
                 </div>
               ))}
             </div>
@@ -149,6 +160,8 @@ const BikeDetails = () => {
               required
               className="border border-borderColor px-3 py-2 rounded-lg"
               id="pickupDate"
+              value={pickupDate}
+              onChange={(e) => setPickupDate(e.target.value)}
               min={new Date().toISOString().split("T")[0]}
             />
           </div>
@@ -159,10 +172,15 @@ const BikeDetails = () => {
               required
               className="border border-borderColor px-3 py-2 rounded-lg"
               id="returnDate"
+              value={returnDate}
+              onChange={(e) => setReturnDate(e.target.value)}
               min={new Date().toISOString().split("T")[0]}
             />
           </div>
-          <button className="bg-primary hover:bg-primary-dull py-3 w-full text-white font-medium rounded-lg cursor-pointer transition-all">
+          <button
+            type="submit"
+            className="bg-primary hover:bg-primary-dull py-3 w-full text-white font-medium rounded-lg cursor-pointer transition-all"
+          >
             Book Now
           </button>
           <p className="text-center text-sm">

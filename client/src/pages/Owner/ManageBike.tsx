@@ -15,12 +15,12 @@ const ManageBike = () => {
       <div className="h-screen w-screen flex items-center justify-center ">
         <div
           className={`${
-            t.visible ? "animate-enter" : "animate-leave"
-          } max-w-md w-full bg-light shadow-lg rounded-lg pointer-events-auto flex items-start gap-4 px-4 py-7 ring-1 ring-borderColor ring-opacity-80`}
+            t.visible ? "animate-enter" : "animate-fast-leave"
+          } max-w-md w-full bg-light shadow-lg rounded-lg pointer-events-auto flex items-start gap-4 px-4 py-10 ring-1 ring-borderColor ring-opacity-80`}
         >
           {/* Content */}
           <div className="flex flex-col flex-1 justify-center items-center">
-            <p className="text-sm font-medium text-gray-800">
+            <p className="text-md font-medium text-gray-800">
               Are you sure you want to delete this bike?
             </p>
             <div className="flex justify-end gap-3 mt-3">

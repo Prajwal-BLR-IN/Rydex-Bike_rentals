@@ -1,4 +1,4 @@
-import { assets } from "../../assets/assets";
+import { assets, type BookingType } from "../../assets/assets";
 import DataEmpty from "../../components/DataEmpty";
 import Loader from "../../components/Loader";
 import TitleOwner from "../../components/owner/TitleOwner";
@@ -13,8 +13,6 @@ type DashboardCardType = {
 const Dashboard = () => {
   const { isLoading, ownerData } = useOwnerQuery();
   const dashboardData = ownerData?.dashboardData;
-
-  console.log("dashboardData", dashboardData);
 
   const dashboardCard: DashboardCardType[] = dashboardData
     ? [
@@ -98,7 +96,7 @@ const Dashboard = () => {
               {dashboardData.recentBookings &&
               dashboardData.recentBookings.length > 0 ? (
                 dashboardData.recentBookings.map(
-                  (booking: any, index: number) => (
+                  (booking: BookingType, index: number) => (
                     <div
                       key={index}
                       className="mt-4 flex items-center justify-between"
@@ -113,7 +111,7 @@ const Dashboard = () => {
                         </div>
                         <div>
                           <h3>
-                            {booking.bike.brand} {booking.bike.model}
+                            {booking.bike.brand} {booking.bike.bikeModel}
                           </h3>
                           <p className="text-gray-500 text-sm">
                             {booking.createdAt.split("T")[0]}

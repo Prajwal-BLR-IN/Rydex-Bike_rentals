@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Title from "../components/Title";
-import { assets } from "../assets/assets";
+import { assets, type BikeModelType } from "../assets/assets";
 import BikeCard from "../components/BikeCard";
 import { useBikesQuery } from "../hooks/useBikesQuery";
 import { useSearchParams } from "react-router-dom";
@@ -15,15 +15,16 @@ const Bikes = () => {
   const pickupDate = searchParams.get("pickupDate");
   const returnDate = searchParams.get("returnDate");
 
-  const isSearchData = pickupDate && pickupLocation && returnDate;
+  const isSearchData = pickupLocation && pickupDate && returnDate;
 
-  const [filterBikes, setFilterBikes] = useState<any[]>([]); // You can replace `any` with your `BikeType` if available
+  const [filterBikes, setFilterBikes] = useState<BikeModelType[]>([]);
 
   const { mutate: checkAvailabilityMutation, data } = useOwnerMutation({
     url: "/bookings/check-availability",
-    invalidateKey: "bookings",
+    invalidateKey: "owner",
   });
 
+  // Trigger the availability check when search params exist
   useEffect(() => {
     if (isSearchData) {
       checkAvailabilityMutation({
@@ -34,11 +35,24 @@ const Bikes = () => {
     }
   }, [pickupLocation, pickupDate, returnDate]);
 
+  // Filter logic: input + availableBikes (if search) OR all bikes (if no search)
   useEffect(() => {
-    if (data && "availableBikes" in data) {
-      setFilterBikes((data as { availableBikes: any[] }).availableBikes);
-    }
-  }, [data]);
+    const bikes =
+      isSearchData && data && "availableBikes" in data
+        ? (data as { availableBikes: BikeModelType[] }).availableBikes
+        : bikeData;
+
+    const filtered = bikes.filter(
+      (bike) =>
+        bike.brand.toLowerCase().includes(input.toLowerCase()) ||
+        bike.bikeModel.toLowerCase().includes(input.toLowerCase()) ||
+        bike.category.toLowerCase().includes(input.toLowerCase()) ||
+        bike.fuel_type.toLowerCase().includes(input.toLowerCase()) ||
+        bike.location.toLowerCase().includes(input.toLowerCase())
+    );
+
+    setFilterBikes(filtered);
+  }, [input, bikeData, data, isSearchData]);
 
   return (
     <div>

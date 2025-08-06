@@ -12,3 +12,19 @@
   --color-light: #F1F5F9;
   --color-borderColor: #C4C7D2;
 }
+
+@keyframes fast-fade-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+.animate-fast-leave {
+  animation: fast-fade-out 100ms ease-in forwards;
+}
