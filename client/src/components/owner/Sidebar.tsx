@@ -103,7 +103,11 @@ const Sidebar = () => {
                   : "text-gray-600 hover:bg-gray-50"
               }`}
             >
-              <img src={isActive ? link.coloredIcon : link.icon} alt="icon" />
+              <img
+                src={isActive ? link.coloredIcon : link.icon}
+                alt="icon"
+                // className="w-5"
+              />
               <span className="max-md:hidden">{link.name}</span>
               {isActive && (
                 <div className="bg-primary w-1.5 h-8 rounded-l absolute right-0"></div>

@@ -51,7 +51,18 @@ const Navbar = ({ setShowLogin }: setShowLoginPropType) => {
         } ${open ? "max-sm:translate-x-0" : "max-sm:translate-x-full"}`}
       >
         {menuLinks.map((link, index) => (
-          <NavLink key={index} to={link.path}>
+          <NavLink
+            key={index}
+            to={link.path}
+            className={({ isActive }) =>
+              `relative inline-block px-2 py-1 text-gray-700
+                after:content-[''] after:absolute after:left-0 after:-bottom-0.5 after:h-0.5
+               after:bg-gray-700 after:w-0 after:transition-all after:duration-300
+                 hover:after:w-full
+                ${isActive ? "after:w-full font-semibold text-gray-600" : ""}`
+            }
+            onClick={() => setOpen(false)}
+          >
             {link.name}
           </NavLink>
         ))}
