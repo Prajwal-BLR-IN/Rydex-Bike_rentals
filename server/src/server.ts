@@ -9,8 +9,8 @@ import bookingRouter from "./routes/booknig.routes";
 import bikeRoute from "./routes/bike.route";
 
 const app = express();
-const PORT = process.env.PORT || 4002;
 
+// Middleware
 app.use(
   cors({
     origin: ["http://localhost:5173"],
@@ -21,13 +21,16 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Routes
 app.get("/", (req, res) => res.send("API Running 👍🏽"));
 app.use("/api/user", userRoute);
 app.use("/api/owner", ownerRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/bikes", bikeRoute);
 
-app.listen(PORT, async () => {
-  console.log(`Server running in http://localhost:${PORT}`);
-  await ConnectToDB();
+// Connect to DB once when function loads
+ConnectToDB().catch((err) => {
+  console.error("DB connection error:", err);
 });
+
+export default app;
