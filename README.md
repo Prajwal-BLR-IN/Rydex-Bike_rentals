@@ -159,9 +159,3 @@ Access the application at: [http://localhost:5173](http://localhost:5173) (Vite 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
-
-✅ The formatting is clean, headings are consistent, and code blocks are properly separated.
-
-If you want, I can **add a “Demo” section with a GIF/video placeholder** to make it more visually engaging for GitHub.
-
-Do you want me to do that next?
