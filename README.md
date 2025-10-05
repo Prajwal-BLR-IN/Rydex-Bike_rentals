@@ -1,5 +1,3 @@
----
-
 # Rydex Bike Rentals
 
 **Rydex Bike Rentals** is a modern full-stack web application that allows users to browse and rent bikes seamlessly. The platform offers a smooth user experience with real-time state management, optimized images, and interactive UI animations. Admins can manage bike listings and reservations efficiently.
@@ -14,13 +12,13 @@
 
 ## Tech Stack
 
-- **Frontend**: React (TypeScript), Zustand (state management), TanStack Query (data fetching/caching), Framer Motion (animations)
-- **Backend**: Node.js with Express (TypeScript)
-- **Database**: MongoDB
-- **Authentication**: JWT (JSON Web Tokens)
-- **Image Optimization**: ImageKit
-- **Hosting**: Vercel (Frontend), Vercel/Heroku (Backend)
-- **Bundler**: Vite
+* **Frontend**: React (TypeScript), Zustand (state management), TanStack Query (data fetching/caching), Framer Motion (animations)
+* **Backend**: Node.js with Express (TypeScript)
+* **Database**: MongoDB
+* **Authentication**: JWT (JSON Web Tokens)
+* **Image Optimization**: ImageKit
+* **Hosting**: Vercel (Frontend), Vercel/Heroku (Backend)
+* **Bundler**: Vite
 
 ---
 
@@ -74,16 +72,16 @@ vercel.json
 
 ### User Features
 
-- Browse and filter available bikes
-- Reserve bikes for specific time slots
-- View and manage rental history
-- Responsive and interactive UI
+* Browse and filter available bikes
+* Reserve bikes for specific time slots
+* View and manage rental history
+* Responsive and interactive UI
 
 ### Admin Features
 
-- CRUD operations for bike listings
-- Manage user accounts and reservations
-- Dashboard to track rentals
+* CRUD operations for bike listings
+* Manage user accounts and reservations
+* Dashboard to track rentals
 
 ---
 
@@ -91,10 +89,10 @@ vercel.json
 
 ### Prerequisites
 
-- Node.js ≥ 14
-- npm ≥ 6
-- MongoDB (local or cloud)
-- ImageKit account for image optimization
+* Node.js ≥ 14
+* npm ≥ 6
+* MongoDB (local or cloud)
+* ImageKit account for image optimization
 
 ### Steps
 
@@ -121,25 +119,23 @@ cd ..
 
 3. Configure environment variables:
 
-- Create a `.env` file in the `server` directory.
-- Add the following variables:
+**Backend `.env` file (`server/`)**:
 
-  ```
-  PORT=Your_port
-  MONGO_URI=your_mongodb_connection_string
-  JWT_SECRET=Your_JWT_secret
-  NODE_ENV = "production"
-  IMAGEKIT_URL_ENDPOINT=Your_URL_ENDPOINT
-  IMAGEKIT_PUBLIC_KEY=Your_Imagekit_public_KEY
-  IMAGEKIT_PRIVATE_KEY=Your_IMAGEKIT_PRIVATE_KEY
-  ```
+```
+PORT=Your_port
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=Your_JWT_secret
+NODE_ENV="production"
+IMAGEKIT_URL_ENDPOINT=Your_URL_ENDPOINT
+IMAGEKIT_PUBLIC_KEY=Your_Imagekit_public_KEY
+IMAGEKIT_PRIVATE_KEY=Your_IMAGEKIT_PRIVATE_KEY
+```
 
-  - Create a `.env` file in the `client` directory.
-  - Add the following variables:
+**Frontend `.env` file (`client/`)**:
 
-  ```
-  VITE_BASE_URL=Your_backend_URL
-  ```
+```
+VITE_BASE_URL=Your_backend_URL
+```
 
 4. Run the application:
 
@@ -154,10 +150,18 @@ cd client
 npm run dev
 ```
 
-Access at: [http://localhost:5173](http://localhost:5173) (Vite default)
+Access the application at: [http://localhost:5173](http://localhost:5173) (Vite default)
+
+---
 
 ## License
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
+
+✅ The formatting is clean, headings are consistent, and code blocks are properly separated.
+
+If you want, I can **add a “Demo” section with a GIF/video placeholder** to make it more visually engaging for GitHub.
+
+Do you want me to do that next?
