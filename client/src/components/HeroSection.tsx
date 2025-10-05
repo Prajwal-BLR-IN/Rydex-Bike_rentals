@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { assets, cityList } from "../assets/assets";
 import { useStore } from "../store/useStore";
 import { useNavigate } from "react-router-dom";
-import { motion, scale } from "motion/react";
+import { motion } from "motion/react";
 const HeroSection = () => {
   const [pickupLocation, setPickupLocation] = useState("");
   const { pickupDate, setPickupDate, returnDate, setReturnDate } = useStore();

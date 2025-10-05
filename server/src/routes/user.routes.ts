@@ -5,9 +5,9 @@ import {
   login,
   logout,
   signup,
-} from "../controllers/user.controller";
-import protect from "../middleware/getUserInfo";
-import upload from "../middleware/multer";
+} from "../controllers/user.controller.js";
+import protect from "../middleware/getUserInfo.js";
+import upload from "../middleware/multer.js";
 
 const userRoute = express.Router();
 

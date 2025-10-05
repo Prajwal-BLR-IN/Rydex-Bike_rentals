@@ -1,5 +1,5 @@
 import express from "express";
-import protect from "../middleware/getUserInfo";
+import protect from "../middleware/getUserInfo.js";
 import {
   addBike,
   deleteBike,
@@ -7,8 +7,8 @@ import {
   getOwnersBikes,
   toggleBikeAvailability,
   updateProfilePicture,
-} from "../controllers/owner.controller";
-import upload from "../middleware/multer";
+} from "../controllers/owner.controller.js";
+import upload from "../middleware/multer.js";
 
 const ownerRouter = express.Router();
 

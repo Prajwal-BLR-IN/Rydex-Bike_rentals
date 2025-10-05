@@ -1,6 +1,5 @@
-import React from "react";
 import { assets } from "../assets/assets";
-import { motion, scale } from "motion/react";
+import { motion } from "motion/react";
 
 const Banner = () => {
   return (

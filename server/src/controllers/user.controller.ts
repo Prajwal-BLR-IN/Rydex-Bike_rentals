@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import userModel, { UserDocument } from "../models/users";
+import userModel, { UserDocument } from "../models/users.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import fs from "fs";
-import imagekit from "../config/imagekit";
+import imagekit from "../config/imagekit.js";
 
 const signup = async (req: Request, res: Response) => {
   const { name, email, password } = JSON.parse(req.body.userData);

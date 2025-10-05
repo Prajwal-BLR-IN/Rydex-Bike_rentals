@@ -1,4 +1,3 @@
-import React from "react";
 import { useOwnerMutation } from "../hooks/useOwnerMutation";
 import { useNavigate } from "react-router-dom";
 

@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import userModel, { UserDocument } from "../models/users";
+import userModel, { UserDocument } from "../models/users.js";
 import fs from "fs";
-import imagekit from "../config/imagekit";
-import BikeModel from "../models/Bike";
+import imagekit from "../config/imagekit.js";
+import BikeModel from "../models/Bike.js";
 import mongoose from "mongoose";
-import bookingModel from "../models/Bookings";
+import bookingModel from "../models/Bookings.js";
 
 const addBike = async (req: Request, res: Response) => {
   try {

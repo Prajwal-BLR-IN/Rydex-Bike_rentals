@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import BikeModel from "../models/Bike";
+import BikeModel from "../models/Bike.js";
 
 const getAllAvailableBikes = async (req: Request, res: Response) => {
   try {

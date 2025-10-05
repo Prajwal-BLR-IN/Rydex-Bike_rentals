@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { UserDocument } from "../models/users";
-import BikeModel from "../models/Bike";
+import { UserDocument } from "../models/users.js";
+import BikeModel from "../models/Bike.js";
 import mongoose from "mongoose";
-import bookingModel from "../models/Bookings";
-import { countTotalDays } from "../utils/getTotalsDays";
+import bookingModel from "../models/Bookings.js";
+import { countTotalDays } from "../utils/getTotalsDays.js";
 
 //Funciton to check availibity of car for a given date.
 const checkAvailability = async (

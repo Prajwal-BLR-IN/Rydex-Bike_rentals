@@ -1,12 +1,12 @@
 import express from "express";
-import protect from "../middleware/getUserInfo";
+import protect from "../middleware/getUserInfo.js";
 import {
   bookTheBike,
   changeBookingStatus,
   checkAvailabilityOfBike,
   getMybookings,
   getOwnerBookings,
-} from "../controllers/booking.controller";
+} from "../controllers/booking.controller.js";
 
 const bookingRouter = express.Router();
 

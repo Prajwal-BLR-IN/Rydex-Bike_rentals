@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import userModel from "../models/users";
+import userModel from "../models/users.js";
 
 const protect = async (req: Request, res: Response, next: NextFunction) => {
   const { token } = req.cookies;
